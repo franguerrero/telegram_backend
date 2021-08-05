@@ -1,0 +1,21 @@
+version: '3.7'
+services:
+  iwejer2-backend:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "3030:3030"
+    container_name: iw-ejer2-backend
+    links:
+      - mongo-db
+  mongo-db:
+    image: franguerrero/mongo
+    ports:
+      - "27017:27017"
+    container_name: mongo-db
+        
+  mongo-seed:
+    build: ./mongo-seed
+    links:
+      - mongo-db
