@@ -31,27 +31,38 @@ export default {
         res.status(400).json({ success: false, error: err.toString() });
       } else {
         try {
-          
-
+          let imageData;
+          if (files.file && !Array.isArray(files.file)) {
+            // Asegurándonos de que files.file no es un array
+            imageData = { data: fs.readFileSync(files.file.path), contentType: files.file.type };
+          }
+  
           const client = new Client({
-            
             clientId: fields.clientId,
             name: fields.name,
             description: fields.description,
             rootUrl: fields.rootUrl,
-            image: { data: fs.readFileSync(files.file.path), contentType: files.file.type },
+            image: imageData, // Usando imageData aquí
             groups: (fields.groups as string).split(","),
           });
           await client.save();
-
+  
           res.json({ success: true });
         } catch (ex) {
-          logger.error(ex.toString());
-          res.status(ex.status || 400).json({ success: false, error: ex.toString() });
+          const error = ex as Error;
+          if ("status" in error) {
+            // Asumiendo que tu error personalizado tiene una propiedad 'status'
+            res.status((error as any).status).json({ success: false, error: error.message });
+          } else {
+            res.status(500).json({ success: false, error: error.message });
+          }
         }
+        
+        
       }
     });
   },
+  
   async adminUpdateClient(req: Request, res: Response) {
     const form = new IncomingForm();
     form.parse(req, async (err, fields, files) => {
@@ -61,22 +72,35 @@ export default {
       } else {
         try {
           const client: any = {
-            
             clientId: fields.clientId,
             name: fields.name,
             description: fields.description,
             rootUrl: fields.rootUrl,
             groups: (fields.groups as string).split(","),
           };
+  
           if (files.file) {
-            client.image = { data: fs.readFileSync(files.file.path), contentType: files.file.type };
+            // Verificar si files.file es un array o un solo archivo
+            if (Array.isArray(files.file)) {
+              // Manejar el caso de un array de archivos
+              // Por ejemplo, podrías elegir el primer archivo o manejarlo de otra manera
+              client.image = { data: fs.readFileSync(files.file[0].path), contentType: files.file[0].type };
+            } else {
+              // Manejar el caso de un solo archivo
+              client.image = { data: fs.readFileSync(files.file.path), contentType: files.file.type };
+            }
           }
+  
           await Client.findByIdAndUpdate(fields._id, client);
-
+  
           res.json({ success: true });
         } catch (ex) {
-          logger.error(ex.toString());
-          res.status(ex.status || 400).json({ success: false, error: ex.toString() });
+          const error = ex as Error;
+          if ("status" in error) {
+            res.status((error as any).status).json({ success: false, error: error.message });
+          } else {
+            res.status(500).json({ success: false, error: error.message });
+          }
         }
       }
     });
@@ -86,8 +110,14 @@ export default {
       const result = await Client.findByIdAndDelete(req.params.clientId).exec();
       res.json({ success: true });
     } catch (ex) {
-      logger.error(ex.toString());
-      res.status(ex.status || 400).json({ success: false, error: ex.toString() });
+      const error = ex as Error;
+      if ("status" in error) {
+        // Asumiendo que tu error personalizado tiene una propiedad 'status'
+        res.status((error as any).status).json({ success: false, error: error.message });
+      } else {
+        res.status(500).json({ success: false, error: error.message });
+      }
     }
+    
   },
 };

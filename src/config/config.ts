@@ -19,7 +19,8 @@ const resolveConfig = (NODE_ENV?: string) => {
   return {
     port: 3030,
     corsOrigins: "http://localhost:3000",
-    mongodbConnectionString: "mongodb://mongo-db:27017/iw",
+    //mongodbConnectionString: "mongodb://mongo-db:27017/iw",
+    mongodbConnectionString: "mongodb://172.30.104.49:27017/preguntas",
     
   };
 };

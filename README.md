@@ -25,7 +25,7 @@ Una vez levantado, se puede probar con POSTMAN o simplemente con el navegador:
 ```
 http://localhost:3030/version
 
-http://localhost:3030/iwbackend/admin
+http://localhost:3030/opoapi/admin
 
 ```
 
@@ -41,4 +41,19 @@ docker build --pull --rm -f "Dockerfile" -t iwejer2backend "."
 ### Levantar el docker-compose
 docker-compose up
 
+
+DOCKER MONGO!!
+
+He creado un docker mongo en el servidor pero con un volumen persistente
+
+docker volume create mongo_data
+
+docker run -d -v mongo_data:/data/db -p 27017:27017 --name my_mongo mongo
+
+Para acceder: mongodbConnectionString: "mongodb://172.30.104.49:27017/iw"
+
+A modo prueba he copiado un JSON y lo he importado:
+
+docker cp ./admin_clients.json my_mongo:/tmp/admin_clients.json 
+docker exec my_mongo mongoimport --uri mongodb://localhost:27017/iw --collection admin_clients --file /tmp/admin_clients.json --db iw --jsonArray
 

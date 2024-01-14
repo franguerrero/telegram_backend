@@ -10,7 +10,7 @@ const logger = winston.createLogger({
     new winston.transports.Console({
       level: "debug",
       format: winston.format.combine(
-        winston.format.label({ label: "IW_EJ2" }), // path.basename(process.mainModule.filename) }),
+        winston.format.label({ label: "TELEGRAMBOT_OPOJA" }), // path.basename(process.mainModule.filename) }),
         winston.format.simple(),
         winston.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
         winston.format.errors({ stack: true }),

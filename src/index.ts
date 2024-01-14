@@ -32,7 +32,7 @@ app.use(cors({ origin: config.corsOrigins, credentials: true }));
 
 
 
-app.use("/iwbackend", clientRouter);
+app.use("/opoapi", clientRouter);
 app.get("/", async (req, res) => {
   res.json({ OK: true });
 });

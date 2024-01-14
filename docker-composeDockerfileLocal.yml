@@ -1,21 +1,22 @@
 version: '3.7'
 services:
-  iwejer2-backend:
+  opoapi-backend:
     build:
       context: ./
       dockerfile: Dockerfile
     ports:
       - "3030:3030"
-    container_name: iw-ejer2-backend
+    container_name: opoapi-backend
     links:
       - mongo-db
   mongo-db:
-    image: franguerrero/mongo
+    image: mongo
     ports:
       - "27017:27017"
-    container_name: mongo-db
+    volumes:
+      - mongo_data:/data/db
+    container_name: my_mongo
+
+volumes:
+  mongo_data:
         
-  mongo-seed:
-    build: ./mongo-seed
-    links:
-      - mongo-db

@@ -18,3 +18,5 @@ export interface IClient extends Document {
 }
 
 export default mongoose.model<IClient>("admin_Client", schema);
+
+
