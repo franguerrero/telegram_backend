@@ -14,6 +14,7 @@ router.post('/message', (req, res) => {
     if (message.text.startsWith('/start')) {
       BotController.handleStartCommand(message);
     } else if (message.text.startsWith('/newquestion')) {
+      logger.info("Entrando en /newquestion");
       BotController.handleNewQuestionCommand(message);
     } else {
       BotController.handleAnswer(message);
