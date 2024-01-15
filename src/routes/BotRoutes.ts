@@ -8,8 +8,11 @@ router.post('/message', (req, res) => {
   logger.info("Entrando en /message");
   const message = req.body.message;
 
+ 
+
   // Verifica si el mensaje y el texto existen
   if (message && typeof message.text === 'string') {
+    console.log("ID del chat:", message.chat.id); // Imprimir el ID del chat
     // Aquí puedes determinar qué acción tomar basándote en el mensaje
     if (message.text.startsWith('/start')) {
       BotController.handleStartCommand(message);

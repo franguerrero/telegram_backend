@@ -14,7 +14,15 @@ class BotController {
 
 
   async handleStartCommand(message: Message) {
-    // Lógica para el comando /start
+    // Aquí puedes definir el mensaje de bienvenida o las instrucciones iniciales
+    const welcomeMessage = "Bienvenido al bot. Envía /newquestion para obtener una pregunta.";
+
+    try {
+      // Enviar el mensaje de bienvenida al usuario
+      await this.bot.sendMessage(message.chat.id, welcomeMessage);
+    } catch (error) {
+      console.error("Error al enviar el mensaje de bienvenida:", error);
+    }
   }
 
   
