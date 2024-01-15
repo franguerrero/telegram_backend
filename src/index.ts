@@ -33,8 +33,8 @@ app.use(bodyParser.json());
 app.use(cors({ origin: config.corsOrigins, credentials: true }));
 
 
-
-app.use("/opoapi", clientRouter);
+app.use('/bot', botRoutes);
+//app.use("/opoapi", clientRouter);
 app.get("/", async (req, res) => {
   res.json({ OK: true });
 });
@@ -42,7 +42,7 @@ app.get("/version", async (req, res) => {
   res.json({ version: "v1.0" });
 });
 
-app.use('/bot', botRoutes);
+
 
 logger.info("Connecting Mongo...");
 mongoose.connect(config.mongodbConnectionString, {
