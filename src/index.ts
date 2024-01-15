@@ -13,6 +13,8 @@ import moment from "moment-timezone";
 import logger from "./utils/logger";
 import { morganOptions } from "./utils/morganOptions";
 
+import botRoutes from './routes/BotRoutes';
+
 const app = express();
 
 /*———— Morgan Timezone ————*/
@@ -39,6 +41,8 @@ app.get("/", async (req, res) => {
 app.get("/version", async (req, res) => {
   res.json({ version: "v1.0" });
 });
+
+app.use('/bot', botRoutes);
 
 logger.info("Connecting Mongo...");
 mongoose.connect(config.mongodbConnectionString, {

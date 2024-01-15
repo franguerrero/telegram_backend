@@ -36,7 +36,7 @@ npm run build:local
 npm run start:local
 
 ### Crear el docker de backend
-docker build --pull --rm -f "Dockerfile" -t iwejer2backend "." 
+docker build --pull --rm -f "Dockerfile" -t opoapi "." 
 
 ### Levantar el docker-compose
 docker-compose up
