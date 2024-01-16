@@ -1,6 +1,7 @@
 import TelegramBot, { Message } from 'node-telegram-bot-api';
 import QuizService from '../services/QuizService';
 import QuestionService from '../services/QuestionService';
+import logger from "../utils/logger";
 
 
 class BotController {
@@ -13,6 +14,7 @@ class BotController {
       throw new Error("TELEGRAM_BOT_TOKEN is not defined in .env file");
   }
   this.bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN);
+  logger.info("TOKEN Telegram set")
   
 
     // ... resto del código ...
