@@ -8,7 +8,13 @@ class BotController {
   private bot: TelegramBot;
 
   constructor() {
-    this.bot = new TelegramBot('6917600485:AAGZ_gM23143lRD5ygHOA5ruYWKXBqDcLKg');
+    
+    if (!process.env.TELEGRAM_BOT_TOKEN) {
+      throw new Error("TELEGRAM_BOT_TOKEN is not defined in .env file");
+  }
+  this.bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN);
+  
+
     // ... resto del código ...
   }
 
