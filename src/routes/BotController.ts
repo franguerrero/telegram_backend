@@ -34,7 +34,33 @@ class BotController {
   }
 
   
+  async handleNewQuestionCommand(message: Message) {
+    try {
+      const question = await QuizService.getRandomQuestion();
+      if (question) {
+        const questionText = question.text;
+        const options = question.options; // Asegúrate de que esto es un array de opciones
+        const correctOptionIndex = question.answer; // El índice de la opción correcta
+  
+        await this.bot.sendPoll(message.chat.id, questionText, options, {
+          is_anonymous: false,
+          type: 'quiz',
+          correct_option_id: correctOptionIndex,
+          explanation: 'question.explanation', // Explicación que se mostrará después de responder
+          explanation_parse_mode: 'Markdown' // O 'HTML', si tu explicación tiene formato
+        });
+      } else {
+        await this.bot.sendMessage(message.chat.id, "Lo siento, no tengo preguntas disponibles en este momento.");
+      }
+    } catch (error) {
+      console.error(error);
+      await this.bot.sendMessage(message.chat.id, "Ocurrió un error al obtener una pregunta.");
+    }
+  }
 
+  
+  
+  /*
   async handleNewQuestionCommand(message: Message) {
     try {
       const question = await QuizService.getRandomQuestion();
@@ -54,10 +80,16 @@ class BotController {
       await this.bot.sendMessage(message.chat.id, "Ocurrió un error al obtener una pregunta.");
     }
   }
+  */
   
 
   async handleAnswer(message: Message) {
     // Lógica para manejar la respuesta del usuario
+    this.bot.on('poll_answer', async (answer) => {
+      // Aquí puedes manejar la respuesta de la encuesta
+      // Por ejemplo, verificar si la respuesta es correcta y actualizar la puntuación del usuario
+    });
+    
   }
 
   // Aquí puedes agregar más métodos para otros comandos o acciones
