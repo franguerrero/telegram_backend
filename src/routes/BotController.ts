@@ -14,7 +14,7 @@ class BotController {
       throw new Error("TELEGRAM_BOT_TOKEN is not defined in .env file");
   }
   this.bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN);
-  logger.info("TOKEN Telegram set")
+  logger.info("TOKEN Telegram set: "+process.env.TELEGRAM_BOT_TOKEN);
   
 
     // ... resto del código ...
