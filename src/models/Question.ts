@@ -13,7 +13,7 @@ const QuestionSchema: Schema = new Schema({
   options: { type: [String], required: true },
   answer: { type: Number, required: true },
 },
-{ collection: "question" });
+{ collection: "Question" });
 
 // Crear el modelo de Mongoose
 export default mongoose.model<IQuestion>('Question', QuestionSchema);
