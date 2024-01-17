@@ -4,34 +4,34 @@ import logger from "../utils/logger";
 
 const router = Router();
 
+const commandHandlers: { [key: string]: (message: any) => Promise<void> | undefined } = {
+  '/start': BotController.handleStartCommand,
+  '/newquestion': BotController.handleNewQuestionCommand,
+  '/canal': BotController.handleCanalCommand,
+  // Agrega más comandos y sus manejadores aquí
+};
+
 router.post('/message', (req, res) => {
   logger.info("Entrando en /message");
-  const message = req.body.message;
+  const message = req.body.message; // Asegúrate de que 'message' se extrae correctamente del cuerpo de la solicitud
 
- 
-
-  // Verifica si el mensaje y el texto existen
   if (message && typeof message.text === 'string') {
-    logger.info("ID del chat:", message.chat.id); // Imprimir el ID del chat
-    // Aquí puedes determinar qué acción tomar basándote en el mensaje
-    if (message.text.startsWith('/start')) {
-      logger.info("Entrando en /start");
-      BotController.handleStartCommand(message);
-    } else if (message.text.startsWith('/newquestion')) {
-      logger.info("Entrando en /newquestion");
-      BotController.handleNewQuestionCommand(message);
+    logger.info("ID del chat:", message.chat.id);
+
+    const command = message.text.split(' ')[0];
+    const handler = commandHandlers[command];
+
+    if (handler) {
+      logger.info(`Entrando en ${command}`);
+      handler(message);
     } else {
       BotController.handleAnswer(message);
     }
   } else {
-    // Manejar casos donde no hay mensaje o texto
     logger.info("No se encontró mensaje o texto en la actualización");
   }
 
   res.status(200).send('OK');
 });
-
-
-
 
 export default router;

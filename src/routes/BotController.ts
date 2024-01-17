@@ -12,7 +12,7 @@ class BotController {
     
     if (!process.env.TELEGRAM_BOT_TOKEN) {
       throw new Error("TELEGRAM_BOT_TOKEN is not defined in .env file");
-  }
+    }
   this.bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN);
   logger.info("TOKEN Telegram set: "+process.env.TELEGRAM_BOT_TOKEN);
   
@@ -20,6 +20,21 @@ class BotController {
     // ... resto del código ...
   }
 
+  async handleCanalCommand(message: Message) {
+    // Aquí puedes definir el mensaje de bienvenida o las instrucciones iniciales
+    const welcomeMessage = "Bienvenido al bot. Envía /newquestion para obtener una pregunta.";
+
+    try {
+
+      if (!process.env.CANALADMINISTRATIVOAND) {
+        throw new Error("CANALADMINISTRATIVOAND is not defined in .env file");
+      }
+      // Enviar el mensaje de bienvenida al usuario
+      await this.bot.sendMessage(process.env.CANALADMINISTRATIVOAND, welcomeMessage);
+    } catch (error) {
+      console.error("Error al enviar el mensaje de bienvenida:", error);
+    }
+  }
 
   async handleStartCommand(message: Message) {
     // Aquí puedes definir el mensaje de bienvenida o las instrucciones iniciales
@@ -43,7 +58,7 @@ class BotController {
         const correctOptionIndex = question.answer; // El índice de la opción correcta
   
         await this.bot.sendPoll(message.chat.id, questionText, options, {
-          is_anonymous: false,
+          is_anonymous: true,
           type: 'quiz',
           correct_option_id: correctOptionIndex,
           explanation: 'question.explanation', // Explicación que se mostrará después de responder
