@@ -9,6 +9,7 @@ const router = Router();
 const commandHandlers: { [command: string]: (message: any) => void } = {
   '/start': BotController.handleStartCommand.bind(BotController),
   '/newquestion': BotController.handleNewQuestionCommand.bind(BotController),
+  '/canal': BotController.handleCanalCommand.bind(BotController),
   // Agrega más comandos y sus manejadores aquí
 };
 
