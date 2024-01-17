@@ -36,7 +36,7 @@ class BotController {
         const options = question.options; // Asegúrate de que esto es un array de opciones
         const correctOptionIndex = question.answer; // El índice de la opción correcta
   
-        await this.bot.sendPoll(message.chat.id, questionText, options, {
+        await this.bot.sendPoll(process.env.CANALADMINISTRATIVOAND, questionText, options, {
           is_anonymous: true,
           type: 'quiz',
           correct_option_id: correctOptionIndex,
