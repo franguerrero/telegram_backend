@@ -4,12 +4,16 @@ import logger from "../utils/logger";
 
 const router = Router();
 
-// Objeto de mapeo de comandos
+// Asegúrate de que las funciones controladoras sean llamadas con el contexto adecuado
+// Si BotController es una clase y handleStartCommand es un método que usa 'this', necesitas asegurarte de mantener el contexto
 const commandHandlers: { [command: string]: (message: any) => void } = {
-  '/start': BotController.handleStartCommand,
-  '/newquestion': BotController.handleNewQuestionCommand,
+  '/start': BotController.handleStartCommand.bind(BotController),
+  '/newquestion': BotController.handleNewQuestionCommand.bind(BotController),
   // Agrega más comandos y sus manejadores aquí
 };
+
+// El resto del código de tu router...
+
 
 router.post('/message', (req, res) => {
   logger.info("Entrando en /message");
